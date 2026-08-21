@@ -45,3 +45,10 @@ Ran ARRAY_LENGTH (items), Confirmed that multi-item purchases exist in the datas
 - Wrote and fixed UNNEST query for items (had made some aliasing bugs, all fixed now). 
 - *pt 2 schema literacy completed.*
 - Next: Start reading what story the data tells and ask relevant business questions. 
+
+## 2026-08-21
+
+- Studied AARRR (Acquisition, Activation, Rentention, Revenue, Referral) as the core framework for this dataset.
+- Confirmed AARRR is suitable for GA4's event level , timestamped, user_pseudo_id-key structure. 
+
+- Next: Draft questions across 5 AARRR stages
