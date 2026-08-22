@@ -52,3 +52,11 @@ Ran ARRAY_LENGTH (items), Confirmed that multi-item purchases exist in the datas
 - Confirmed AARRR is suitable for GA4's event level , timestamped, user_pseudo_id-key structure. 
 
 - Next: Draft questions across 5 AARRR stages
+
+## 2026-08-22
+
+- Ran the blind guess drill: wrote 5 guesses about the data before running any query
+- Drafted questions across all 5 AARRR (Pirate Metrics framework) stages. (Covered Acquisition, Activation, Retention, Referral, Revenue)
+
+**What surprised me:**
+- AARRR and "descriptive/diagnostic/predictive/prescriptive" are orthogonal axes, not competing frameworks. (a real analysis usually would specify both)
