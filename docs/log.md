@@ -55,8 +55,31 @@ Ran ARRAY_LENGTH (items), Confirmed that multi-item purchases exist in the datas
 
 ## 2026-08-22
 
-- Ran the blind guess drill: wrote 5 guesses about the data before running any query
+- Ran the blind guess drill: wrote 5 guesses about the data before running any query. The questions being:
+1. The traffic from referrals must be low (Assuming that few people refer merchandise to others)
+2. Repurchases might be low as this is a merch shop 
+3. Mobile users might make up more users hence traffic (Assuming people search ecomm sites often on their mobiles) 
+4. Revenue generated from Desktop users might be more than Mobile users (Assuming people viewing on destops might be more intentional, and maybe are purchasing from desktop after viewing on mobile)
+5. US might have larger revenue share as this is a US based merch store 
+6. No. of items purchased might be 1-2 on average as this is a merch store not a grocery store. 
+7. Revenue generated on weekends might be more than revenue generated on weekdays. 
+8. The most difference in funnel (% drop in conversion) comes between add to cart and buy stages. 
+*will check during exploration stage**
+
 - Drafted questions across all 5 AARRR (Pirate Metrics framework) stages. (Covered Acquisition, Activation, Retention, Referral, Revenue)
 
 **What surprised me:**
 - AARRR and "descriptive/diagnostic/predictive/prescriptive" are orthogonal axes, not competing frameworks. (a real analysis usually would specify both)
+
+## 2026-08-25
+
+- Added 3 more blind guesses:
+  6. No. of items purchased might be 1-2 on average as this is a merch store not a grocery store. 
+  7. Revenue generated on weekends might be more than revenue generated on weekdays. 
+  8. The most difference in funnel (% drop in conversion) comes between add to cart and buy stages. 
+  -- confirmed blind guesses using SQL in 01_exploration.sql and noted down the verdicts of each guess
+  
+  -- what surprised me is that bigquery has a built-in day of week calculator (would have been cumbersome to calculate guess no. 7 without it)
+
+  -- Next: Conclude 01_exploration.sql and hence the exploration in SQL by studying the data quality
+  
