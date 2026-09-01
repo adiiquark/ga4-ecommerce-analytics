@@ -83,3 +83,12 @@ Ran ARRAY_LENGTH (items), Confirmed that multi-item purchases exist in the datas
 
   -- Next: Conclude 01_exploration.sql and hence the exploration in SQL by studying the data quality
   
+## 2026-08-29
+- find and replace all was used liberally and not as carefully, now, there is a big mess to clean (group by is cnt everywhere,... )
+- Lesson learnt: commit even small changes to code to land in this situation. 
+- Writing data profiling section again. 
+
+## 2026-08-31
+- profiling section done
+- Next: Complete the exploration. 
+
