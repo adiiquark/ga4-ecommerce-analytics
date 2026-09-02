@@ -237,7 +237,7 @@ UNNEST(items) AS item
 where event_name = 'purchase' and _table_suffix is not null;
 
 -- 	min_qty	   max_qty	med_qty
--- 	1	       160	      1
+-- 	1	          160	      1
 
 
 -- === Round 2:  digging deeper ===
@@ -315,6 +315,42 @@ from `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`,
 UNNEST(items) AS item
 where _table_suffix is not null;
 -- 3982732
+
+
+-- coupon count is useless without a denominator. 
+-- Is 3.9M a lot or a little? Let's see total items.
+select count(*) as total_items
+from `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`,
+UNNEST(items) AS item
+where _table_suffix is not null;
+-- it is 3982732, so basically ~3.9M
+-- so basically coupons are used for every row, drop from analysis 
+
+
+-- Need cardinality for Q13 (item/cat by geo/device). 
+-- Forgot to check this earlier.
+select
+  count(distinct item.item_id) as items,
+  count(distinct item.item_category) as cats
+from `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`,
+UNNEST(items) AS item
+where _table_suffix is not null 
+  and event_name = 'purchase';
+  -- 810 items belonging to 22 categories 
+
+-- Wait, is 329 actually the right number for repurchasers? 
+-- The previous check used date, let's try transaction_id. 
+-- If they differ, I'll just pick one and document it.
+select count(*) as total_repurchasers
+from (
+  select user_pseudo_id, count(distinct ecommerce.transaction_id) as trans_count
+  from `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`
+  where _table_suffix is not null 
+    and event_name = 'purchase'
+  group by 1
+  having trans_count > 1
+);
+-- its 502
 
 ---------------------------------------------------------------------------------------
 -- DATA QUALITY CHECKS
