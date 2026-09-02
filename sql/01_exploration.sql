@@ -371,6 +371,8 @@ WITH funnel AS (
 select * from funnel
 where buy_ts is not null and view_ts is not null and buy_ts < view_ts;
 
+-- I see 13 such records
+
 -- Checking for junk values in traffic source. 
 -- Note: '(data deleted)' shows up a lot, need to filter that out later.
 select traffic_source.medium, count(*) as cnt
@@ -379,9 +381,16 @@ where _table_suffix is not null
   and traffic_source.medium IN ('<Other>', '(data deleted)')
 group by 1;
 
+-- 	medium	            cnt
+-- <Other>	          597482
+-- (data deleted)	    313917
+
 -- Same junk check but for geo.
 select geo.country, count(*) as cnt
 from `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`
 where _table_suffix is not null
   and geo.country in ('<Other>', '(not set)')
 group by 1;
+
+--	country	   cnt
+-- (not set)	32208
