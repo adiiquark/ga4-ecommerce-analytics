@@ -92,3 +92,30 @@ Ran ARRAY_LENGTH (items), Confirmed that multi-item purchases exist in the datas
 - profiling section done
 - Next: Complete the exploration. 
 
+## 2026-09-01
+- completed exploration
+- Key findings are: 
+-   As no refund orders are present in the data ,AARRR_based_questions no. 14 is not needed now. 
+-   15 windows + mobile rows exist
+-   13 records with buy timestamp preceeding view timestamps
+-   no duplicates exist, 
+- Next: cleaning
+
+## 2026-09-02
+- before cleaning, decided to go through files and realized i need items_category cardinality for Q13, need to check whether repurchase id from 329 disagrees with transaction ids 
+
+- Also, checked 810 distinct items from 22 categories and transaction id based repurchase count turns out to be 502 which disagrees with 329
+
+## 2026-09-05
+-  Created 3 views in 02_cleaning.sql namely: v_events_clean, v_repurchasers, v_user_first_touch. 
+
+- Basically relabelled '<Other>', '(data deleted)' traffic medium; '(not set)' country as unknown , standardized transaction_id for repurchases and user_first_touch_ timestamp for first visit timing, fladding the users with absurd purchase before view timestamp. 
+
+- Next: validation of cleaning
+
+## 2026-09-06
+- Ran the validation queries. Got expected values
+
+- Filtered the AARRR questions to find the relevant ones and documented it in docs -> AARRR_based_questions.md
+
+- Next: Build 03_metrics.sql against cleaned views.
