@@ -119,3 +119,23 @@ Ran ARRAY_LENGTH (items), Confirmed that multi-item purchases exist in the datas
 - Filtered the AARRR questions to find the relevant ones and documented it in docs -> AARRR_based_questions.md
 
 - Next: Build 03_metrics.sql against cleaned views.
+
+## 2026-09-07
+- upon validation of 03_metrics.sql queries, it was found that user_first_touch dates back to 2019 which corrupts the retention curve and analysis for first_visit_activation so rebuilt v_user_first_touch with min timestamp instead. 
+
+- rerun that with fix, then run validation query 7 (date range check) and then rerun retention_curve and m_first_visit activation. 
+
+-- validated metrics as well teh retention curve still returns bad dates, so would change v_user_first_touch and use event_date instead of event_timestamp now. 
+-- m_retention_curve still looks funny
+
+-- WHAT ACTUALLY HAPPENED: first theory was that timestamp could be corrupted, ruled that one out because event_timestamp and event_date always agreed. 
+second theory was that event_date might be corrupted again ruled out as event_date and _table_suffix agreed too
+
+Real cause was: create or replace table does not auto-refresh an upstream view changes. I had already fixed v_user_first_touch to use_event_date instead of teh timestamp field but kept viewing stale version of the m_retention_curve. 
+
+- while reviewing all 8 exposed metric csvs before moving to python, found issues with m_category_performance_geo_device.csv, missed during 01_exploration and 02_cleaning. 
+
+- next: look into this 
+
+
+
