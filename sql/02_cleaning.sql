@@ -16,8 +16,7 @@
 ---------------------------------------------------------------------------------------
 -- VIEW 1: Base table with cleaned up labels
 ---------------------------------------------------------------------------------------
-create or replace VIEW `ga4-ecommerce-analysis-504204.ga4_analysis.v_events_clean
-` as
+create or replace VIEW `ga4-ecommerce-analysis-504204.ga4_analysis.v_events_clean` as
 select
   e.*,
 
@@ -75,7 +74,7 @@ group by 1;
 create or replace VIEW `ga4-ecommerce-analysis-504204.ga4_analysis.v_user_first_touch` AS
 select
   user_pseudo_id,
-  min(user_first_touch_timestamp) as first_touch_ts
+  min(parse_date('%Y%m%d', event_date)) as first_touch_date -- changed from user_first_touch_timestamp to event_timestamp as the former corrupts the retention curve in 03_metrics (see log of 2026-09-07 for more info)
 from `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`
 where _table_suffix is not null
 group by 1;
@@ -128,5 +127,12 @@ from `ga4-ecommerce-analysis-504204.ga4_analysis.v_user_first_touch`;
 -- 270154 both 
 
 
-
 -- todo: maybe add a check for that windows/mobile thing later? skipping for now.
+
+-- 7. Confirming the fixed first_touch_ts is within the range of this dataset
+select 
+min(first_touch_date) as earliest_first_touch_ts,
+max(first_touch_date) as latest_first_touch_ts
+from `ga4-ecommerce-analysis-504204.ga4_analysis.v_user_first_touch`;
+
+-- confirmed 
