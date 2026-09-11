@@ -159,7 +159,12 @@ from days_before;
 ---------------------------------------------------------------------------------------
 create or replace table `ga4-ecommerce-analysis-504204.ga4_analysis.m_category_performance_geo_device` as
 select
-  item.item_category,
+case
+   when item.item_category is null
+   or item.item_category = ''
+   or item.item_category = '(not set)' then 'Unknown'
+   else item.item_category
+  end as category_clean,
   e.country_clean,
   e.device.category as device_category,
   sum(item.item_revenue) as total_revenue,
@@ -170,10 +175,27 @@ where e.event_name = 'purchase'
 group by 1, 2, 3
 order by total_revenue desc;
 
+-- Note: added case statements to deal with the junk values. 
 
--- check:
-select sum(total_revenue) from `ga4-ecommerce-analysis-504204.ga4_analysis.m_category_performance_geo_device`; 
--- 362110
+-- check (a diagnosis of rows with item_revenue as null
+-- done because the table had category: (not set), junk value alert):
+select
+category_clean, count(*)
+from `ga4-ecommerce-analysis-504204.ga4_analysis.m_category_performance_geo_device`
+where category_clean in ('(not set)', '')
+group by category_clean; 
+-- now returns 0 rows. 
+
+
+
+-- validation for the case statements fix:
+-- Unkown category has to replace noth null revenue (not set) rows and blank category rows (real revenue ones)
+-- total revenue has to be still ~362110, the fix has to only affect the categories and not the number of rows or anything. 
+select category_clean, sum(total_revenue) as revenue, count(*) as row_count
+from `ga4-ecommerce-analysis-504204.ga4_analysis.m_category_performance_geo_device`
+where category_clean = "Unknown"
+group by category_clean; 
+
 ---------------------------------------------------------------------------------------
 -- q15: revenue distribution
 -- just checking the spread of revenue. mean vs median.
