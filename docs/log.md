@@ -137,5 +137,13 @@ Real cause was: create or replace table does not auto-refresh an upstream view c
 
 - next: look into this 
 
+## 2026-09-11
+-- looked into the m_category_performance_geo_device issue. Ran checks on the issue and found out the problem is is isolated, the (not set) category had all 448 rows with null item.item_revenune, all others had 0 null revenue rows. ALso, found that blank rows had real non-null revenue attached, that means its unalabeled data and nor a revenue gap. 
+
+-- Used case when to put Nulls, empty strings and (not set) to "Unkown" category. Validated the fix. 
+
+-- Exported this table again. 
+
+
 
 
