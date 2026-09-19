@@ -144,6 +144,21 @@ Real cause was: create or replace table does not auto-refresh an upstream view c
 
 -- Exported this table again. 
 
+## 2026-09-19
+-- did not log the eda process, my bad, but it is done and i have created a separate folder named outputs that contains charts from python EDA. 
+-- Documenting what i remember:
+- loaded all 8 exported metric csvs, validated each against the already confirmed numbers from sql (row counts, funnel logic, revenue totals, date ranges)
+- Ran pandas describe, value_counts, groupby, pivot_table on the category and channel tables. Confirmed that the nulls in category_performance are cinfined to unknown bucket (43 rows). 
+- Reconfirmed the mean/median revenue skew already found in sql (69.09 vs 48.00). 
+-- Built all 4 visualisations bar, line, funnel and heatmap as channel conversion rate, retention curve, funnel drop off and day of week X country revenue heatmap. 
+
+- hit 2 bugs and fixed them: 1. the outputs folder didn't have charts subfolder and I kept trying to save charts there. Constant FileNOtFoundError was there, fixed. 2. KeyError was there from positional indexing on pandas series with string labels, switched to label based indexing instead of [0]/[1]/[2]
+
+- Noticed that the funnel drop off % computed in pandas is (79.9% / 67.2%) which is not the same as SQL (79.5% / 64.8%). Was expecting approximate values not exact as a user could appear in more than one segment. 
+
+Ran full notebook, no errors persist. 
+
+EDA is completed. 
 
 
 
